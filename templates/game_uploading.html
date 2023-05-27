@@ -1,0 +1,52 @@
+<!-- game_uploading.html -->
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Game Uploading - OASIS</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/game_uploading.css' %}">
+</head>
+<body>
+    {% block content %}
+    <div class="container">
+        <h1>Game Uploading</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="{{ form.name.id_for_label }}">Name</label>
+                {{ form.name }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.genre.id_for_label }}">Genre</label>
+                {{ form.genre }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.description.id_for_label }}">Description</label>
+                {{ form.description }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.platform.id_for_label }}">Platform</label>
+                {{ form.platform }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.image.id_for_label }}">Image</label>
+                {{ form.image }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.game_file.id_for_label }}">Game File</label>
+                {{ form.game_file }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.price.id_for_label }}">Price</label>
+                {{ form.price }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.wallet_address.id_for_label }}">Wallet Address</label>
+                {{ form.wallet_address }}
+            </div>
+            <button class="btn btn-primary" type="submit">Upload</button>
+        </form>
+    </div>
+{% endblock %}
+</body>
+</html>

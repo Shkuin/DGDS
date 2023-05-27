@@ -1,0 +1,20 @@
+<!-- main_page.html -->
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Main Page - OASIS</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main_page.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">OASIS</h1>
+        <p class="subtitle">Welcome to the decentralized game distribution service.</p>
+        <div class="buttons">
+            <a class="button" href="{% url 'upload' %}">Upload Your Game</a>
+            <a class="button" href="">Catalog</a>
+        </div>
+    </div>
+</body>
+</html>
