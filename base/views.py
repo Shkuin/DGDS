@@ -12,13 +12,22 @@ def game_uploading(request):
             genre = form.cleaned_data['genre']
             description = form.cleaned_data['description']
             platform = form.cleaned_data['platform']
-            image = form.cleaned_data['image']
-            game_file = form.cleaned_data['game_file']
+            images = request.FILES.getlist('images')
+            game_files = request.FILES.getlist("game_files")
             price = form.cleaned_data['price']
             wallet_address = form.cleaned_data['wallet_address']
             
             # Process the form data or call your Python script
             # ...
+            print(name)
+            print(genre)
+            print(platform)
+            print(description)
+            for i in images:
+                print(i)
+
+            for f in game_files:
+                print(f)
 
             return render(request, 'success.html')
     else:
