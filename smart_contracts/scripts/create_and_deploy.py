@@ -1,42 +1,27 @@
 from scripts.helpful_scripts import accounts, OPENSEA_URL, get_account
-from brownie import DeveloperNFT, Contract
+from brownie import DeveloperNFT, network
+from scripts.create_metadata import create_metadata
 
 
-def deploy_and_create(metadataURI):
-    # account = get_account()
-    account = accounts.load("SecondAcc")
-    name = "Test1"
-    symbol = "t1"
+def create_and_deploy(metadataURI, name, symbol, account_name):
+    network.disconnect()
+    network.connect("sepolia")
+    account = accounts.load(account_name)
+
+    address = "0xF22cFb17fA3247eCF089024302b7b090AcD5c3CE"
     developer_nft = DeveloperNFT.deploy(name, symbol, {"from": account})
-    tx = developer_nft.createDeveloperNFT(metadataURI, {"from": account})
-    tx.wait(1)
-    print(
-        f"Awesome, you can view your NFT at {OPENSEA_URL.format(developer_nft.address, developer_nft.tokenId() - 1)}"
-    )
-    print("Please wait up to 20 minutes, and hit the refresh metadata button. ")
+    developer_nft.createDeveloperNFT(metadataURI, address, {"from": account})
+
+    print("Congratulations")
+
     return developer_nft
 
 
-# def deploy_and_create2(metadataURI):
-#     contract_address = "0x9B01B5c2c46fa14Db220f4EC0FdD5fbDC3E2e650"
-#     # developer_nft = Contract.from_explorer(contract_address)
-#     contract_abi = [
-#         {
-#             "constant": False,
-#             "inputs": [],
-#             "name": "myFunction",
-#             "outputs": [],
-#             "payable": False,
-#             "stateMutability": "nonpayable",
-#             "type": "function",
-#         }
-#     ]
-#     developer_nft = Contract.from_abi("DeveloperNFT", contract_address, contract_abi)
-#     account = accounts.load("SecondAcc")
-#     tx = developer_nft.createDeveloperNFT({"from": account}, metadataURI)
-#     tx.wait(1)
-#     print(
-#         f"Awesome, you can view your NFT at {OPENSEA_URL.format(developer_nft.address, developer_nft.tokenId() - 1)}"
-#     )
-#     print("Please wait up to 20 minutes, and hit the refresh metadata button. ")
-#     return developer_nft
+def main(name, genre, description, platform, image, game_file, price, wallet_address):
+    keys, metadata_uri = create_metadata(
+        name, genre, description, platform, image, game_file, price, wallet_address
+    )
+
+    print(create_and_deploy(metadata_uri, "aue", "symbol1", "SecondAcc"))
+
+    return keys

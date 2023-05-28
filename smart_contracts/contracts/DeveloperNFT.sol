@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "smart_contracts/node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
 contract DeveloperNFT is ERC721URIStorage {
     address public immutable dgds_developer;
@@ -21,23 +21,12 @@ contract DeveloperNFT is ERC721URIStorage {
     }
 
     function createDeveloperNFT(
-        // address owner,
         string memory metadataURI,
-        string memory address_string
+        address owner
     ) external onlyDgdsDeveloper returns (uint256) {
-        // require(owner != address(0), "Invalid owner address.");
-        developer_address = address(bytes20(bytes(address_string)));
-        _mint(developer_address, tokenId);
+        _mint(owner, tokenId);
         _setTokenURI(tokenId, metadataURI);
         tokenId++;
         return tokenId;
     }
-
-    // function setTokenURI(uint256 tokenId, string memory _tokenURI) public {
-    //     require(
-    //         _isApprovedOrOwner(_msgSender(), tokenId),
-    //         "ERC721: caller is not owner or not approved"
-    //     );
-    //     _setTokenURI(tokenId, _tokenURI);
-    // }
 }
