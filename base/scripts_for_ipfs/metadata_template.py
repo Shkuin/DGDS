@@ -3,8 +3,9 @@ template = {
     "genre": "",
     "description": "",
     "platform": "",
+    "icon": "",
     "images": [],
-    "game_files": [],
     "price": 0,
     "wallet_address": "",
+    "nft_address": "",
 }

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .forms import GameUploadForm
 
 # from scripts_for_ipfs.create_metadata import create_metadata
-from base.scripts_for_ipfs.create_metadata import create_metadata
+from base.scripts_for_ipfs import create_metadata
 
 
 def main_page(request):
@@ -18,13 +18,9 @@ def game_uploading(request):
             description = form.cleaned_data["description"]
             platform = form.cleaned_data["platform"]
             images = request.FILES.getlist("images")
-            game_files = request.FILES.getlist("game_files")
+            game_file = request.FILES.getlist("game_file")
             price = form.cleaned_data["price"]
             wallet_address = form.cleaned_data["wallet_address"]
-            # for image in images:
-            #     print("-----------------")
-            #     print(image.read())
-            #     print("-----------------")
             # Process the form data or call your Python script
             # ...
             # print(name)
@@ -37,20 +33,41 @@ def game_uploading(request):
             # for f in game_files:
             #     print(f)
 
-            keys, metadata_uri = create_metadata(
+            (
+                game_file_uri,
+                encrypted_message,
+                key,
+            ) = create_metadata.convert_game_file_to_metadata(game_file)
+
+            # Here will be code which create nft token, and we will take nft address from this script,
+            # after that we will add this address to json
+
+            metadata_json = create_metadata.create_metadata_json(
                 name,
                 genre,
                 description,
                 platform,
+                None,  # icon,
                 images,
-                game_files,
                 price,
                 wallet_address,
+                None,  # nft_address
             )
-            print("----------")
-            print(keys)
-            print("----------")
-            print(metadata_uri)
+
+            # keys, game_file_uri = create_metadata.create_metadata_json(
+            #     name,
+            #     genre,
+            #     description,
+            #     platform,
+            #     images,
+            #     game_files,
+            #     price,
+            #     wallet_address,
+            # )
+            # print("----------")
+            # print(keys)
+            # print("----------")
+            # print(game_file_uri)
             return render(request, "success.html")
     else:
         form = GameUploadForm()
