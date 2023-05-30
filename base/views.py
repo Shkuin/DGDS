@@ -17,8 +17,9 @@ def game_uploading(request):
             genre = form.cleaned_data["genre"]
             description = form.cleaned_data["description"]
             platform = form.cleaned_data["platform"]
+            poster = form.cleaned_data['poster']
             images = request.FILES.getlist("images")
-            game_file = request.FILES.getlist("game_file")
+            game_file = form.cleaned_data['game_file']
             price = form.cleaned_data["price"]
             wallet_address = form.cleaned_data["wallet_address"]
             # Process the form data or call your Python script
@@ -47,7 +48,7 @@ def game_uploading(request):
                 genre,
                 description,
                 platform,
-                None,  # icon,
+                poster,  # icon,
                 images,
                 price,
                 wallet_address,

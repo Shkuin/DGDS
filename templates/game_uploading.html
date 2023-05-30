@@ -29,11 +29,16 @@
                 {{ form.platform }}
             </div>
             <div class="form-group">
+                <label for="{{ form.poster.id_for_label }}">Poster</label>
+                {{ form.poster }}
+            </div>
+            <div class="form-group">
                 <label for="{{ form.images.id_for_label }}">Images</label>
                 {{ form.images }}
             </div>
             <div class="form-group">
-                <input type="file" name="game_files" id="game-files-upload" webkitdirectory directory multiple>
+                <label for="{{ form.game_file.id_for_label }}">Game Archive</label>
+                {{ form.game_file }}
             </div>
             <div class="form-group">
                 <label for="{{ form.price.id_for_label }}">Price</label>
