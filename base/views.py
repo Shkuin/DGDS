@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from .forms import GameUploadForm
-
-# from scripts_for_ipfs.create_metadata import create_metadata
+from .models import Game
 from base.scripts_for_ipfs import create_metadata
 from base.scripts_for_contract import connect_to_contract
 
+def add_new_game(name, json, private_key):
+    new_game = Game.objects.create(name=name, json=json, private_key=private_key)
+    new_game.save()
 
 def main_page(request):
     return render(request, "main_page.html")
@@ -23,12 +25,6 @@ def game_uploading(request):
             game_file = form.cleaned_data["game_file"]
             price = form.cleaned_data["price"]
             wallet_address = form.cleaned_data["wallet_address"]
-            # Process the form data or call your Python script
-            # ...
-            # print(name)
-            # print(genre)
-            # print(platform)
-            # print(description)
 
             (
                 game_file_uri,
@@ -51,21 +47,9 @@ def game_uploading(request):
                 wallet_address,
                 token_id,
             )
-            # keys, game_file_uri = create_metadata.create_metadata_json(
-            #     name,
-            #     genre,
-            #     description,
-            #     platform,
-            #     images,
-            #     game_files,
-            #     price,
-            #     wallet_address,
-            # )
-            # print("----------")
-            # print(keys)
-            # print("----------")
-            # print(game_file_uri)
-            return render(request, "success.html")
+
+            add_new_game(name, metadata_json, key)
+            return render(request, "main_page.html")
     else:
         form = GameUploadForm()
 
