@@ -27,11 +27,8 @@ def convert_game_file_to_metadata(file):
     return game_file_uri, encrypted_message, key
 
 
-def upload_array_to_ipfs(array, poster=""):
+def upload_array_to_ipfs(array):
     uri_array = []
-    if poster!="":
-        uri_array.append(upload_file_to_ipfs_from_django(poster))
-
     for file in array:
         uri_array.append(upload_file_to_ipfs_from_django(file))
     return uri_array
@@ -46,5 +43,5 @@ def upload_json_to_ipfs(metadata_template):
     return f"https://ipfs.io/ipfs/{ipfs_hash}?filename=metadata.json"
 
 
-def create_metadata_json(icon, images):
-    return json.dumps(upload_array_to_ipfs(images, icon))
+def create_metadata_json(poster, images):
+    return upload_file_to_ipfs_from_django(poster), json.dumps(upload_array_to_ipfs(images))
