@@ -5,8 +5,8 @@ from base.scripts_for_ipfs import create_metadata
 from base.scripts_for_contract import connect_to_contract
 
 
-def add_new_game(name, json, private_key):
-    new_game = Game.objects.create(name=name, json=json, private_key=private_key)
+def add_new_game(name, genre, description, platform, poster, images, price, token_id, private_key):
+    new_game = Game.objects.create(name=name, genre=genre, description=description, platform=platform, poster=poster, images=images, price=price, token_id=token_id, private_key=private_key)
     new_game.save()
 
 def main_page(request):
@@ -36,20 +36,10 @@ def game_uploading(request):
             # u should write real address here, owerwise there will be an error
             wallet_address = "0x99bc949975C4bd87D2a6d2a5043112C121EC68D1"
             token_id = connect_to_contract.main(game_file_uri, wallet_address)
+            poster_url, images_url = create_metadata.create_metadata_json(poster, images)
 
-            metadata_json = create_metadata.create_metadata_json(
-                name,
-                genre,
-                description,
-                platform,
-                poster,
-                images,
-                price,
-                wallet_address,
-                token_id,
-            )
-
-            add_new_game(name, metadata_json, key)
+            add_new_game(name, genre, description, platform, poster_url, images_url, price, token_id, key)
+            
             return render(request, "main_page.html")
     else:
         form = GameUploadForm()

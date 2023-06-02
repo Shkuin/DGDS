@@ -43,18 +43,5 @@ def upload_json_to_ipfs(metadata_template):
     return f"https://ipfs.io/ipfs/{ipfs_hash}?filename=metadata.json"
 
 
-def create_metadata_json(
-    name, genre, description, platform, icon, images, price, wallet_address, nft_address
-):
-    metadata_template = template
-    metadata_template["name"] = name
-    metadata_template["genre"] = genre
-    metadata_template["description"] = description
-    metadata_template["platform"] = platform
-    metadata_template["icon"] = upload_file_to_ipfs_from_django(icon)
-    metadata_template["images"] = upload_array_to_ipfs(images)
-    metadata_template["price"] = float(price)
-    metadata_template["wallet_address"] = wallet_address
-    metadata_template["nft_address"] = nft_address
-
-    return json.dumps(metadata_template)
+def create_metadata_json(icon, images):
+    return upload_file_to_ipfs_from_django(icon), json.dumps(upload_array_to_ipfs(images))
