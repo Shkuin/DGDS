@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
 from .forms import GameUploadForm
 from .models import Game
 from base.scripts_for_ipfs import create_metadata
@@ -6,7 +7,7 @@ from base.scripts_for_contract import connect_to_contract
 
 
 def add_new_game(name, genre, description, platform, poster, images, price, token_id, private_key):
-    new_game = Game.objects.create(name=name, genre=genre, description=description, platform=platform, poster=poster, images=images, price=price, token_id=token_id, private_key=private_key)
+    new_game = Game.objects.create(name=name, genre=genre, description=description, platform=platform, poster=poster, images=images, price=price, token_id=token_id, private_key=private_key, slug=str(name).lower().replace(" ", "_"))
     new_game.save()
 
 def main_page(request):
@@ -49,4 +50,11 @@ def game_catalog(request):
     context = {
         'games' : Game.objects.all()
     }
-    return render(request, "game_catalog.html", context)
+    return render(request, "catalog/game_catalog.html", context)
+
+def game_detail(request, slug):
+    game = Game.objects.get(slug__iexact=slug)
+    if request.method=='POST':
+        return HttpResponseRedirect(game.get_absolute_url())
+
+    return render(request, 'catalog/game_detail.html', context={'game': game})
