@@ -6,7 +6,7 @@ from eth_account import Account
 
 def read_json(name):
     with open(
-        f"base/scripts_for_contract/developer_contract_info/{name}.json", "r"
+        f"base/scripts_for_contract/developer_contract_info/test1/{name}.json", "r"
     ) as file:
         info = json.load(file)
     return info
@@ -47,7 +47,15 @@ def create_developer_nft(metadata_uri, owner, account, w3, contract):
     tx_hash = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
 
     token_id = contract.functions.tokenId().call()
+    print(token_id)
     return tx_hash, token_id
+
+
+def check_statement(contract):
+    tokenId = contract.functions.tokenId().call()
+    print(contract.functions.tokenId().call())
+    print(contract.functions.dgdsDeveloper().call())
+    print(contract.functions.tokenIDtoMetadata(0).call())
 
 
 def main(metadata_uri, owner_address):
@@ -55,12 +63,18 @@ def main(metadata_uri, owner_address):
     contract_address = info["contract_address"]
     w3 = Web3(Web3.HTTPProvider(info["http_provider"]))
     abi = read_json(contract_address)["abi"]
-
+    print(contract_address)
     contract = get_developer_contract(w3, contract_address, abi)
     account = create_web3_account(w3)
 
+    # check_statement(contract)
     tx_hash, token_id = create_developer_nft(
         metadata_uri, owner_address, account, w3, contract
     )
 
-    return token_id
+    # 0x5c74ff508b1c48c987bb62da14f7d2a0c075e016
+
+    # return token_id
+
+
+main("aue basota", "0x99bc949975C4bd87D2a6d2a5043112C121EC68D1")
