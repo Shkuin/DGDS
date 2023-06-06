@@ -25,315 +25,89 @@
     }
     h3{
         font-family: 'Jura', sans-serif;
-        color: #787878;
+        font-size:xx-large;
+        color: #fafafa;
         letter-spacing: 1px;
     }
     p{
         letter-spacing: 1px;
-        color: #343131;
+        color: #bfbfbf;
         font-size: 17px;
         font-family: 'Manrope', sans-serif;
         font-weight: normal;
     }
 
-
-   #id_text{
-        width: 100%;
-        border-radius: 10px;
-        text-align: justify;
-        border-image: linear-gradient(90deg, #000000, #000005 33.33%, transparent 33.33%, transparent 100%);
-        font-size: 20px;
-        color: #5c5c5c;
-
-
-
-   }
    body{
-   background-color: #ffffff;
+   background-color: #000000;
    }
 
-   .hr-vertical-lines {
-
-	margin: 20px 0;
-	padding: 0;
-	height: 15px;
-	border: none;
-	background-image: linear-gradient(90deg, #000000, #000005 33.33%, transparent 33.33%, transparent 100%);
-    background-size: 3px 100%;
-
-}
-
-    .article-detail img{
+    .carousel-inner .carousel-item img {
         width: 100%;
-        height: auto;
-    }
-    img.profile-pic{
-        height: 80px;
-        width: auto;
-    }
-
-    .print-comments{
-        margin-top: -100px;
-    }
-
-
-    .comment-count{
-        margin-left: 30px;
-        margin-top: 100px;
-    }
-    .comment-count .count {
-        font-size: 30px;
-        font-family: 'Jura', sans-serif;
-        color: #000005;
-        letter-spacing: 2px;
-
-    }
-
-
-    .centerBox{
-	display: flex;
-    margin-top: -166px;
-	justify-content: center;
-	align-items: center;
-	height: 600px
-
-    }
-
-    .categoryWrapper{
-        height: 310px;
-        width: 100%;
-        background: url("http://ohlookawebsite.com/bathroomtestfull.jpg") no-repeat center center;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-
-    }
-
-    .categoryWrapper:after{
-        position: absolute;
-        top:0;
-        left: 0;
-        right:0;
-        bottom: 0;
-        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#a29ca9+0,95909b+99 */
-        background: url("/static/img/ai.jpg") no-repeat center center;
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a29ca9', endColorstr='#95909b',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-        content: '';
-        opacity: 0;
-        /*-webkit-transition: opacity 0.9s ease 0s;*/
-
-    }
-
-    .categoryWrapper:hover:after{
-        opacity: 0.4;
-    }
-
-    .categoryWrapper h5{
-        color: #000005;
-        font-size: 50px;
-        font-family: 'Jura', serif;
-        font-weight: normal;
-        letter-spacing: 2px;
-        /*-webkit-transition: all 0.15s ease 0s;*/
-        position: relative;
-        z-index: 10;
-    }
-
-    .categoryWrapper:hover h5{
-        transform: translateY(-10px);
-    }
-
-    .categoryWrapper a{
-        position: absolute;
-        transform: translatey(60px);
-        /*-webkit-appearance: none;*/
-        border: none;
-        background: none;
-        color: #000005;
-        width: 300px;
-        height:50px;
-        font-size: 20px;
-        font-family: 'Jura', sans-serif;
-        padding: 0;
-        margin: 0;
-        outline: none;
-        z-index: 10;
-    }
-
-    .categoryWrapper a span{
-        display: block;
-        position: relative;
-        line-height: 50px;
-        height: 50px;
-        cursor: pointer;
-    }
-
-    .categoryWrapper a > span:after{
-        content:'';
-        position: absolute;
-        top:0;
-        left: 50%;
-        width: 20px;
-        height: 0;
-
-        border: 1px solid #000005;
-        border-left: none;
-        border-bottom: none;
-
-            transition: height 0.15s ease-out, width 0.15s ease-out 0.15s;
-    }
-
-    .categoryWrapper:hover a > span:after{
-        width: calc(50% - 1px);
-        height: calc(100% - 2px);
-        transition: width 0.15s ease-out, height 0.15s ease-out 0.15s;
-    }
-
-    .categoryWrapper a > span:before{
-        content:'';
-        position: absolute;
-        top:0;
-        right: 50%;
-        width: 20px;
-        height: 0;
-
-        border: 1px solid #000005;
-        border-right: none;
-        border-bottom: none;
-
-            transition: height 0.15s ease-out, width 0.15s ease-out 0.15s;
-    }
-
-    .categoryWrapper:hover a > span:before{
-        width: calc(50% - 1px);
-        height: calc(100% - 2px);
-        transition: width 0.15s ease-out, height 0.15s ease-out 0.15s;
-    }
-
-    .categoryWrapper a > span > span:before{
-        content:'';
-        position: absolute;
-        bottom:0;
-        right: 0%;
-        width: 1px;
-        height: 1px;
-        opacity: 0;
-
-    }
-
-    .categoryWrapper:hover a > span > span:before{
-        opacity: 1;
-        border-bottom: 1px solid #000005;
-        width: calc(50%);
-        height: 1px;
-        transition: opacity 0s ease-out 0.29s, width 0.15s ease-out 0.3s;
-    }
-
-    .categoryWrapper a > span > span:after{
-        content:'';
-        position: absolute;
-        bottom:0;
-        left: 0%;
-        width: 1px;
-        height: 1px;
-        opacity: 0;
-
-    }
-
-    .categoryWrapper:hover a > span > span:after{
-        opacity: 1;
-        border-bottom: 1px solid #000005;
-        width: calc(50%);
-        height: 1px;
-        transition: opacity 0s ease-out 0.29s, width 0.15s ease-out 0.3s;
-    }
-
-    .categoryWrapper a > span > span > span{
-        transition: color 0.15s ease-out 0.3s;
-        color: transparent;
-    }
-
-    .categoryWrapper:hover a > span > span > span{
-        color: #000005;
-    }
-
-    .categoryWrapper a > span > span > span:after{
-        position: absolute;
-        top:0;left:0;right:0;bottom:0;
-        color: #ffffff;
-        content: attr(data-attr-span);
-        width: 0%;
-        height: 100%;
-        background: #000005;
-        white-space: nowrap;
-        text-align: center;
-        margin: auto;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        transition: width 0.2s;
-    }
-
-    .categoryWrapper a:hover > span > span > span:after{
-        width: 100%;
-    }
-
-    .comment-modal-content{
-        background-color: #FFFFFF;
-    }
-
-    .profile-pic-comment{
+        height: 800px;
         object-fit: cover;
-        width: 70px;
-        height: 70px;
-		border-radius: 50%;
     }
 
-
-    .username_in{
-        font-size: 22px;
-        text-align: center;
-        font-family: 'Jura', serif;
-        margin-left: 10px;
-        color: black;
-    }
-
-    .comment-body{
-        margin-left: 65px;
-        margin-bottom: 70px;
-        margin-top: -25px;
-        color: #5c5c5c;
-        font-weight: normal;
-        font-size: 18px;
-    }
-
-
-    .date_created{
-        font-family: 'Jura', serif;
-        font-size: 15px;
-        color: #000005;
-    }
-    .btn{
-        font-family: 'Jura', serif;
-    }
-
-
-
+    .carousel-caption {
+            position: absolute;
+            top: 85%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #fff;
+            padding: 10px;
+            width: 300px;
+        }
 </style>
 
-<h1 style="text-align: center" class="postTitle">
-   {{ game.name }}
-</h1>
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        {% for image in images %}
+            <li data-target="#myCarousel" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></li>
+        {% endfor %}
+    </ol>
 
-
-
-<div class="container article-detail">
-   {{ game.description|safe }}
-
+    <!-- Slides -->
+    <div class="carousel-inner">
+        {% for image in images %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <img src="{{ image }}" alt="Image">
+              </div>
+        {% endfor %}
+    </div>
+    <div class="carousel-caption d-none d-md-block">
+        <h3>{{ game.name }}</h5>
+        <p> {{ game.genre }} </p>
+      </div>
+    <!-- Controls -->
+    <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
 </div>
-
 <hr class="hr-vertical-lines">
 
-{% endblock %}
+<div class="card text-center">
+    <div class="card-header">
+      {{ game.platform }}
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">About this game</h5>
+      <p class="card-text">{{ game.description }}</p>
+      <button class="btn btn1 btn-outline-light" type="submit">Buy now {{ game.price }}</button>
+    </div>
+    <div class="card-footer text-muted">
+      {{ game.plaform }}
+    </div>
+  </div>
 
+{% endblock %}
+<script>
+    $(document).ready(function(){
+        $('.carousel').carousel();
+    });
+</script>

@@ -4,7 +4,7 @@ from .forms import GameUploadForm
 from .models import Game
 from base.scripts_for_ipfs import create_metadata
 from base.scripts_for_contract import connect_to_contract
-
+from json import dumps, loads
 
 def add_new_game(
     name, genre, description, platform, poster, images, price, token_id, private_key
@@ -97,7 +97,10 @@ def game_catalog(request):
 
 def game_detail(request, slug):
     game = Game.objects.get(slug__iexact=slug)
+    images = loads(game.images)
+
     if request.method == "POST":
         return HttpResponseRedirect(game.get_absolute_url())
 
-    return render(request, "catalog/game_detail.html", context={"game": game})
+    return render(request, "catalog/game_detail.html", context={"game": game,
+                                                                "images": images})
