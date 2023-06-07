@@ -4,7 +4,7 @@ class BuyGameContract:
         self.contract = _contract
         self.w3 = _w3
 
-    def get_metadata_from_contract(
+    def make_transcation(
         self, eth_amount, developer_address, game_id, customer_address
     ):
         transaction = self.contract.functions.payAndRetrieveInformation(

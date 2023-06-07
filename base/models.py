@@ -15,6 +15,7 @@ class Game(models.Model):
     token_id = models.CharField(max_length=100)
     private_key = models.CharField(max_length=200)
     slug = models.SlugField(max_length=150, unique=True)
+    wallet_address = models.CharField(max_length=200)
 
     def get_absolute_url(self):
         return reverse('game_detail_url', kwargs={'slug': self.slug})

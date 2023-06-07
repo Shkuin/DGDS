@@ -9,5 +9,9 @@ class GameUploadForm(forms.Form):
     poster = forms.FileField(label='Poster')
     images = MultiFileField(label='Images')
     game_file = forms.FileField(label='Game Archive')
-    price = forms.DecimalField(label='Price')
+    price = forms.FloatField(label='Price')
     wallet_address = forms.CharField(label='Wallet Address')
+
+
+class TransactionCheckForm(forms.Form):
+    transaction_address = forms.CharField(label='Transaction Address')

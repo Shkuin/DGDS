@@ -4,6 +4,8 @@
 {% endblock %}
 {% block content %}
 {% load crispy_forms_tags %}
+{% load widget_tweaks %}
+
 <style>
     h1 {
         font-family: 'Jura', sans-serif;
@@ -29,6 +31,18 @@
         color: #fafafa;
         letter-spacing: 1px;
     }
+    h5 {
+        color: #ffffff;
+        text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 40px #FFFFFF, 0 0 80px #FFFFFF, 0 0 90px #FFFFFF, 0 0 100px #FFFFFF, 0 0 150px #FFFFFF;
+        background: rgba(0,0,5,0);
+        font-family: 'Jura', serif;
+        transition: 0.5s;
+        font-size: 17px;
+    }
+    h6 {
+        color: #c8d3fd;
+        font-family: 'Jura', serif;
+    }
     p{
         letter-spacing: 1px;
         color: #bfbfbf;
@@ -41,10 +55,29 @@
    background-color: #000000;
    }
 
+   .sign_word {
+    color: #bfbfbf;
+    font-family: 'Jura', serif;
+   }
+
+   .get_game {
+        margin: auto;
+        width: 50%;
+        padding: 10px;
+   }
+
+   .form-control {
+        width: 100%;
+    }
+
     .carousel-inner .carousel-item img {
         width: 100%;
         height: 800px;
         object-fit: cover;
+    }
+
+    .card-footer{
+        text-align: center;
     }
 
     .carousel-caption {
@@ -98,13 +131,27 @@
     <div class="card-body">
       <h5 class="card-title">About this game</h5>
       <p class="card-text">{{ game.description }}</p>
-      <button class="btn btn1 btn-outline-light" type="submit">Buy now {{ game.price }}</button>
     </div>
     <div class="card-footer text-muted">
-      {{ game.plaform }}
+        <h5 class="">Buy now {{ game.price }}</h5>
+        <h6 class="card-text">"{{ game.name }}" wallet address: {{ game.wallet_address }}</h6>
     </div>
   </div>
-
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="get_game">
+        <div class="sign-wrap-2">
+            <span class="sign_word">Enter the transaction number to receive the game:</span>
+        </div>
+        {% render_field form.transaction_address placeholder="Transaction Address" class+="form-control" %}
+    </div>
+       <div class="d-flex justify-content-center mt-3 login_container">
+        <button class="btn btn1 btn-outline-light" type="submit">Check</button>
+    </div>
+        {% for message in messages %}
+            <p id="messages">{{ message }}</p>
+        {% endfor %}
+</form>
 {% endblock %}
 <script>
     $(document).ready(function(){
