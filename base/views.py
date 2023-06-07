@@ -50,23 +50,35 @@ def game_uploading(request):
             # u should write real address here, owerwise there will be an error
             wallet_address = "0x99bc949975C4bd87D2a6d2a5043112C121EC68D1"
 
-            developer_contract = connect_to_contract.return_contract("Developer")
-
             # sometimes u have to wait, because it takes time to load into blockchain, that's why sometimes token_id will be wrong
-            token_id = developer_contract.create_developer_nft(
-                encrypted_message, wallet_address
-            )
+            customer_contract = connect_to_contract.return_contract("Customer")
+            game_id = 15
+            token_id = customer_contract.create_customer_nft(game_id, wallet_address)
 
-            # example how use buy_game contract
-            buy_game_contract = connect_to_contract.return_contract("BuyGame")
-            eth_amount = 10000000000000000  # = 0.01 eth
-            info = buy_game_contract.get_metadata_from_contract(
-                eth_amount,
-                "0xc1275DF70ef313C86C5Ac60De81Af1AA9f1F71De",
-                1,
-                "0x99bc949975C4bd87D2a6d2a5043112C121EC68D1",
-            )
-            print("Retrieved information:", info)
+            print(f"token id = {token_id}")
+
+            # token_id = 0
+            info = customer_contract.get_gameId_from_tokenId(token_id - 1)
+
+            print(f"info = {info}")
+
+            # developer_contract = connect_to_contract.return_contract("Developer")
+
+            # # sometimes u have to wait, because it takes time to load into blockchain, that's why sometimes token_id will be wrong
+            # token_id = developer_contract.create_developer_nft(
+            #     encrypted_message, wallet_address
+            # )
+
+            # # example how use buy_game contract
+            # buy_game_contract = connect_to_contract.return_contract("BuyGame")
+            # eth_amount = 10000000000000000  # = 0.01 eth
+            # info = buy_game_contract.get_metadata_from_contract(
+            #     eth_amount,
+            #     "0xc1275DF70ef313C86C5Ac60De81Af1AA9f1F71De",
+            #     1,
+            #     "0x99bc949975C4bd87D2a6d2a5043112C121EC68D1",
+            # )
+            # print("Retrieved information:", info)
 
             poster_uri, images_uri = create_metadata.create_metadata_json(
                 poster, images

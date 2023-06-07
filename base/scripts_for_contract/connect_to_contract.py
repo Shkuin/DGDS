@@ -2,12 +2,9 @@ from web3 import Web3
 import json
 from web3.middleware import geth_poa_middleware
 from eth_account import Account
-from .developer_contract.interaction_with_developer_contract import (
-    DeveloperContract,
-)
-from .buy_game_contract.interaction_with_buy_game_contract import (
-    BuyGameContract,
-)
+from .developer_contract.interaction_with_developer_contract import DeveloperContract
+from .buy_game_contract.interaction_with_buy_game_contract import BuyGameContract
+from .customer_contract.interaction_with_customer_contract import CustomerContract
 
 
 def read_json(path):
@@ -58,3 +55,7 @@ def return_contract(contract_type):
         name = "buy_game"
         contract, account, w3 = get_web3_info(name)
         return BuyGameContract(account, contract, w3)
+    if contract_type == "Customer":
+        name = "customer"
+        contract, account, w3 = get_web3_info(name)
+        return CustomerContract(account, contract, w3)
