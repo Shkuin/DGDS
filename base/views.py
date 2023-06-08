@@ -5,12 +5,7 @@ from .forms import GameUploadForm, TransactionCheckForm
 from .models import Game
 from base.scripts_for_ipfs import create_metadata
 from base.scripts_for_contract import connect_to_contract
-from base.helpful_scripts.interaction_with_transactions import (
-    get_recipient_wallet,
-    get_amount_of_transaction,
-    check_transaction_status,
-    check_validity_of_transaction,
-)
+from base.helpful_scripts.interaction_with_transactions import *
 from json import dumps, loads
 
 
@@ -134,49 +129,6 @@ def game_detail(request, slug):
         form = TransactionCheckForm(request.POST, request.FILES)
         if form.is_valid():
             transaction_address = form.cleaned_data["transaction_address"]
-            recipient_wallet = get_recipient_wallet(transaction_address)
-            developer_wallet = game.wallet_address
-
-            if recipient_wallet == developer_wallet:
-                amount_of_transaction = get_amount_of_transaction(transaction_address)
-                game_price = game.price
-                if amount_of_transaction >= game_price:
-                    if check_transaction_status(transaction_address):
-                        pass
-                    else:
-                        messages.info(
-                            request,
-                            "Transactions in the process of being added to the blockchain, try your attempt later",
-                        )
-                else:
-                    messages.info(
-                        request, "You sent an amount less than the cost of the game"
-                    )
-            else:
-                messages.info(
-                    request,
-                    "The recipient in this transaction is not the owner-developer of the game",
-                )
-
-        return HttpResponseRedirect(game.get_absolute_url())
-    else:
-        form = TransactionCheckForm()
-
-    return render(
-        request,
-        "catalog/game_detail.html",
-        context={"game": game, "images": images, "form": form},
-    )
-
-
-def game_detail1(request, slug):
-    game = Game.objects.get(slug__iexact=slug)
-    images = loads(game.images)
-
-    if request.method == "POST":
-        form = TransactionCheckForm(request.POST, request.FILES)
-        if form.is_valid():
-            transaction_address = form.cleaned_data["transaction_address"]
             developer_wallet = game.wallet_address
             game_price = game.price
 
@@ -195,3 +147,6 @@ def game_detail1(request, slug):
         "catalog/game_detail.html",
         context={"game": game, "images": images, "form": form},
     )
+
+def about_us(request):
+    return render(request, "about_us.html")

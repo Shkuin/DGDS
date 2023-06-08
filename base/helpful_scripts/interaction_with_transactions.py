@@ -27,9 +27,8 @@ def get_amount_of_transaction(transaction_address):
     w3 = connect_to_blockchain()
     transaction = w3.eth.getTransaction(transaction_address)
     if transaction:  # check that this is exist
-        return transaction["value"]
+        return w3.fromWei(transaction["value"], "ether")
 
-    # amount_in_ether = w3.fromWei(amount, "ether") # where we use it?
     return -1
 
 
@@ -44,23 +43,23 @@ def check_validity_of_transaction(transaction_address, developer_wallet, game_pr
         if not check_transaction_status(transaction_address):
             return (
                 False,
-                "Transactions in the process of being added to the blockchain, try your attempt later",
+                "Transactions in the process of being added to the blockchain, try your attempt later.",
             )
 
         recipient_wallet = get_recipient_wallet(transaction_address)
-        if not recipient_wallet == developer_wallet:
+        if recipient_wallet != developer_wallet:
             return (
                 False,
-                "The recipient in this transaction is not the owner-developer of the game",
+                "The recipient in this transaction is not the owner-developer of the game.",
             )
 
         amount_of_transaction = get_amount_of_transaction(transaction_address)
-        if not amount_of_transaction >= game_price:
-            return False, "You sent an amount less than the cost of the game"
+        if amount_of_transaction < game_price:
+            return False, "You sent an amount less than the cost of the game."
 
-        return True, "Success"
+        return True, "Congratulations you got your game!"
     except:
         return (
             False,
-            "Oops, something worng, check your transaction address and network again",
+            "Oops, something worng, check your transaction address and network again.",
         )

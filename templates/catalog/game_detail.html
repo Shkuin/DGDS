@@ -76,6 +76,14 @@
         object-fit: cover;
     }
 
+    .messages {
+        color: #ffffff;
+        text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 40px #FFFFFF, 0 0 80px #FFFFFF, 0 0 90px #FFFFFF, 0 0 100px #FFFFFF, 0 0 150px #FFFFFF;
+        background: rgba(0,0,5,0);
+        font-family: 'Jura', serif;
+        transition: 0.5s;
+        font-size: 17px;
+    }
     .card-footer{
         text-align: center;
     }
@@ -133,7 +141,7 @@
       <p class="card-text">{{ game.description }}</p>
     </div>
     <div class="card-footer text-muted">
-        <h5 class="">Buy now {{ game.price }}</h5>
+        <h5 class="">Buy now {{ game.price }} ETH</h5>
         <h6 class="card-text">"{{ game.name }}" wallet address: {{ game.wallet_address }}</h6>
     </div>
   </div>
@@ -146,11 +154,14 @@
         {% render_field form.transaction_address placeholder="Transaction Address" class+="form-control" %}
     </div>
        <div class="d-flex justify-content-center mt-3 login_container">
-        <button class="btn btn1 btn-outline-light" type="submit">Check</button>
-    </div>
         {% for message in messages %}
-            <p id="messages">{{ message }}</p>
-        {% endfor %}
+        <p class="messages" id="messages">{{ message }}</p>
+    {% endfor %}
+    </div>
+    <div class="d-flex justify-content-center mt-3 login_container">
+    <button class="btn btn1 btn-outline-light" type="submit">Check</button>
+</div>
+
 </form>
 {% endblock %}
 <script>
