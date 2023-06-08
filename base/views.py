@@ -5,11 +5,26 @@ from .forms import GameUploadForm, TransactionCheckForm
 from .models import Game
 from base.scripts_for_ipfs import create_metadata
 from base.scripts_for_contract import connect_to_contract
-from base.helpful_scripts.interaction_with_transactions import get_recipient_wallet, get_amount_of_transaction, check_transaction_status
+from base.helpful_scripts.interaction_with_transactions import (
+    get_recipient_wallet,
+    get_amount_of_transaction,
+    check_transaction_status,
+    check_validity_of_transaction,
+)
 from json import dumps, loads
 
+
 def add_new_game(
-    name, genre, description, platform, poster, images, price, token_id, private_key, wallet_address
+    name,
+    genre,
+    description,
+    platform,
+    poster,
+    images,
+    price,
+    token_id,
+    private_key,
+    wallet_address,
 ):
     new_game = Game.objects.create(
         name=name,
@@ -22,7 +37,7 @@ def add_new_game(
         token_id=token_id,
         private_key=private_key,
         slug=str(name).lower().replace(" ", "_"),
-        wallet_address = wallet_address
+        wallet_address=wallet_address,
     )
     new_game.save()
 
@@ -96,7 +111,7 @@ def game_uploading(request):
                 price,
                 token_id,
                 key,
-                wallet_address
+                wallet_address,
             )
 
             return render(request, "main_page.html")
@@ -121,25 +136,62 @@ def game_detail(request, slug):
             transaction_address = form.cleaned_data["transaction_address"]
             recipient_wallet = get_recipient_wallet(transaction_address)
             developer_wallet = game.wallet_address
-            
-            if (recipient_wallet == developer_wallet):
+
+            if recipient_wallet == developer_wallet:
                 amount_of_transaction = get_amount_of_transaction(transaction_address)
                 game_price = game.price
-                if (amount_of_transaction >= game_price):
-                    if (check_transaction_status(transaction_address)):
+                if amount_of_transaction >= game_price:
+                    if check_transaction_status(transaction_address):
                         pass
                     else:
-                        messages.info(request, 'Transactions in the process of being added to the blockchain, try your attempt later')
+                        messages.info(
+                            request,
+                            "Transactions in the process of being added to the blockchain, try your attempt later",
+                        )
                 else:
-                    messages.info(request, 'You sent an amount less than the cost of the game')
+                    messages.info(
+                        request, "You sent an amount less than the cost of the game"
+                    )
             else:
-                messages.info(request, 'The recipient in this transaction is not the owner-developer of the game')
-
+                messages.info(
+                    request,
+                    "The recipient in this transaction is not the owner-developer of the game",
+                )
 
         return HttpResponseRedirect(game.get_absolute_url())
     else:
         form = TransactionCheckForm()
 
-    return render(request, "catalog/game_detail.html", context={"game": game,
-                                                                "images": images,
-                                                                "form": form})
+    return render(
+        request,
+        "catalog/game_detail.html",
+        context={"game": game, "images": images, "form": form},
+    )
+
+
+def game_detail1(request, slug):
+    game = Game.objects.get(slug__iexact=slug)
+    images = loads(game.images)
+
+    if request.method == "POST":
+        form = TransactionCheckForm(request.POST, request.FILES)
+        if form.is_valid():
+            transaction_address = form.cleaned_data["transaction_address"]
+            developer_wallet = game.wallet_address
+            game_price = game.price
+
+            validity, message = check_validity_of_transaction(
+                transaction_address, developer_wallet, game_price
+            )
+
+            messages.info(request, message)
+
+        return HttpResponseRedirect(game.get_absolute_url())
+    else:
+        form = TransactionCheckForm()
+
+    return render(
+        request,
+        "catalog/game_detail.html",
+        context={"game": game, "images": images, "form": form},
+    )
