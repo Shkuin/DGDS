@@ -4,8 +4,8 @@ from django.contrib import messages
 from .forms import GameUploadForm, TransactionCheckForm
 from .models import Game
 from base.scripts_for_ipfs import create_metadata
-from base.scripts_for_contract import connect_to_contract
 from base.helpful_scripts.interaction_with_transactions import *
+from base.helpful_scripts import interaction_with_web3
 from json import dumps, loads
 
 
@@ -64,7 +64,7 @@ def game_uploading(request):
             wallet_address = "0x99bc949975C4bd87D2a6d2a5043112C121EC68D1"
 
             # sometimes u have to wait, because it takes time to load into blockchain, that's why sometimes token_id will be wrong
-            customer_contract = connect_to_contract.return_contract("Customer")
+            customer_contract = interaction_with_web3.return_contract("Customer")
             game_id = 15
             token_id = customer_contract.create_customer_nft(game_id, wallet_address)
 
@@ -147,6 +147,7 @@ def game_detail(request, slug):
         "catalog/game_detail.html",
         context={"game": game, "images": images, "form": form},
     )
+
 
 def about_us(request):
     return render(request, "about_us.html")
