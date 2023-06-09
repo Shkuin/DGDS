@@ -20,5 +20,8 @@ class Game(models.Model):
     def get_absolute_url(self):
         return reverse('game_detail_url', kwargs={'slug': self.slug})
     
+    def get_price_in_wei(self):
+        return int(self.price * 1000000000000000000)
+    
     def __str__(self):
         return self.name

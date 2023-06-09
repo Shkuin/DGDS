@@ -162,30 +162,66 @@
     <script>
       let connected = false;
       let selectedAddress = null;
-
+    
       // Function to handle the connect button click event
       async function connectMetamask() {
         try {
           const provider = await detectEthereumProvider();
+
           if (provider) {
-            await ethereum.request({ method: "eth_requestAccounts" });
+            await ethereum.request({ method: 'eth_requestAccounts' });
             connected = true;
-            selectedAddress = await ethereum.request({
-              method: "eth_accounts",
-            })[0];
-            console.log("Metamask connected");
-            document.getElementById("sendTransactionButton").disabled = false;
+            const accounts = await provider.request({ method: 'eth_requestAccounts' });
+         selectedAddress = accounts[0];
+         console.log('Connected with address:', selectedAddress);
+            console.log('Metamask connected');
+            document.getElementById('sendTransactionButton').disabled = false;
           } else {
-            console.log("Metamask not detected");
+            console.log('Metamask not detected');
           }
         } catch (error) {
           console.error(error);
         }
       }
+    
+      // Function to handle the send transaction button click event
+      async function sendTransaction() {
+        if (!connected) {
+          console.log('Metamask wallet is not connected');
+          return;
+        }
+        const recipientAddress = '{{ game.wallet_address }}';
+      const transactionValue = '{{ game.get_price_in_wei }}';
+
+      console.log('From wallet: ', selectedAddress);
+      console.log('To wallet: ', recipientAddress);
+      console.log('Amount of transaction: ', transactionValue);
+
+        const transaction = {
+          from: selectedAddress,
+          to: recipientAddress,
+          value: '3000000000000',
+        };
+    
+        try {
+          const transactionHash = await ethereum.request({
+            method: 'eth_sendTransaction',
+            params: [transaction],
+          });
+          console.log('Transaction sent:', transactionHash);
+        } catch (error) {
+          console.error('Error sending transaction:', error);
+        }
+      }
+    
       // Attach the click event listeners to the buttons
-      const connectButton = document.getElementById("connectButton");
-      connectButton.addEventListener("click", connectMetamask);
+      const connectButton = document.getElementById('connectButton');
+      connectButton.addEventListener('click', connectMetamask);
+    
+      const sendTransactionButton = document.getElementById('sendTransactionButton');
+      sendTransactionButton.addEventListener('click', sendTransaction);
     </script>
+    
 
     <script
       src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
