@@ -147,7 +147,3 @@ def game_detail(request, slug):
         "catalog/game_detail.html",
         context={"game": game, "images": images, "form": form},
     )
-
-
-def about_us(request):
-    return render(request, "about_us.html")
