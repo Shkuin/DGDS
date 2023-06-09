@@ -1,189 +1,210 @@
-{% extends "base.html" %}
-{% block title %}
-{{game.name}} - {{ block.super }}
-{% endblock %}
-{% block content %}
-{% load crispy_forms_tags %}
-{% load widget_tweaks %}
+{% extends "base.html" %} {% block title %} {{game.name}} - {{ block.super }} {%
+endblock %} {% block content %} {% load crispy_forms_tags %} {% load
+widget_tweaks %}
 
 <style>
-    h1 {
-        font-family: 'Jura', sans-serif;
-        font-size: 50px;
-        margin-bottom: 20px;
-        margin-top: 40px;
-        color: #000005;
-        font-weight: normal;
-        text-decoration-line: underline;
+  h1 {
+    font-family: "Jura", sans-serif;
+    font-size: 50px;
+    margin-bottom: 20px;
+    margin-top: 40px;
+    color: #000005;
+    font-weight: normal;
+    text-decoration-line: underline;
+  }
 
-    }
-
-    h2{
-        font-family: 'Jura', sans-serif;
-        color: rgba(6, 6, 6, 0.85);
-        font-weight: normal;
-        font-size: 36px;
-        letter-spacing: 1px;
-    }
-    h3{
-        font-family: 'Jura', sans-serif;
-        font-size:xx-large;
-        color: #fafafa;
-        letter-spacing: 1px;
-    }
-    h5 {
-        color: #ffffff;
-        text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 40px #FFFFFF, 0 0 80px #FFFFFF, 0 0 90px #FFFFFF, 0 0 100px #FFFFFF, 0 0 150px #FFFFFF;
-        background: rgba(0,0,5,0);
-        font-family: 'Jura', serif;
-        transition: 0.5s;
-        font-size: 17px;
-    }
-    h6 {
-        color: #c8d3fd;
-        font-family: 'Jura', serif;
-    }
-    p{
-        letter-spacing: 1px;
-        color: #bfbfbf;
-        font-size: 17px;
-        font-family: 'Manrope', sans-serif;
-        font-weight: normal;
-    }
-
-   body{
-   background-color: #000000;
-   }
-
-   .sign_word {
+  h2 {
+    font-family: "Jura", sans-serif;
+    color: rgba(6, 6, 6, 0.85);
+    font-weight: normal;
+    font-size: 36px;
+    letter-spacing: 1px;
+  }
+  h3 {
+    font-family: "Jura", sans-serif;
+    font-size: xx-large;
+    color: #fafafa;
+    letter-spacing: 1px;
+  }
+  h5 {
+    color: #ffffff;
+    text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 20px #ffffff,
+      0 0 40px #ffffff, 0 0 80px #ffffff, 0 0 90px #ffffff, 0 0 100px #ffffff,
+      0 0 150px #ffffff;
+    background: rgba(0, 0, 5, 0);
+    font-family: "Jura", serif;
+    transition: 0.5s;
+    font-size: 17px;
+  }
+  h6 {
+    color: #c8d3fd;
+    font-family: "Jura", serif;
+  }
+  p {
+    letter-spacing: 1px;
     color: #bfbfbf;
-    font-family: 'Jura', serif;
-   }
+    font-size: 17px;
+    font-family: "Manrope", sans-serif;
+    font-weight: normal;
+  }
 
-   .get_game {
-        margin: auto;
-        width: 50%;
-        padding: 10px;
-   }
+  body {
+    background-color: #000000;
+  }
 
-   .form-control {
-        width: 100%;
-    }
+  .sign_word {
+    color: #bfbfbf;
+    font-family: "Jura", serif;
+  }
 
-    .carousel-inner .carousel-item img {
-        width: 100%;
-        height: 800px;
-        object-fit: cover;
-    }
+  .get_game {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+  }
 
-    .messages {
-        color: #ffffff;
-        text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 40px #FFFFFF, 0 0 80px #FFFFFF, 0 0 90px #FFFFFF, 0 0 100px #FFFFFF, 0 0 150px #FFFFFF;
-        background: rgba(0,0,5,0);
-        font-family: 'Jura', serif;
-        transition: 0.5s;
-        font-size: 17px;
-    }
-    .card-footer{
-        text-align: center;
-    }
+  .form-control {
+    width: 100%;
+  }
 
-    .carousel-caption {
-            position: absolute;
-            top: 85%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            color: #fff;
-            padding: 10px;
-            width: 300px;
-        }
+  .carousel-inner .carousel-item img {
+    width: 100%;
+    height: 800px;
+    object-fit: cover;
+  }
+
+  .messages {
+    color: #ffffff;
+    text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 20px #ffffff,
+      0 0 40px #ffffff, 0 0 80px #ffffff, 0 0 90px #ffffff, 0 0 100px #ffffff,
+      0 0 150px #ffffff;
+    background: rgba(0, 0, 5, 0);
+    font-family: "Jura", serif;
+    transition: 0.5s;
+    font-size: 17px;
+  }
+  .card-footer {
+    text-align: center;
+  }
+
+  .carousel-caption {
+    position: absolute;
+    top: 85%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff;
+    padding: 10px;
+    width: 300px;
+  }
 </style>
 
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-        {% for image in images %}
-            <li data-target="#myCarousel" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></li>
-        {% endfor %}
-    </ol>
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    {% for image in images %}
+    <li
+      data-target="#myCarousel"
+      data-slide-to="{{ forloop.counter0 }}"
+      {%
+      if
+      forloop.first
+      %}class="active"
+      {%
+      endif
+      %}
+    ></li>
+    {% endfor %}
+  </ol>
 
-    <!-- Slides -->
-    <div class="carousel-inner">
-        {% for image in images %}
-            <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                <img src="{{ image }}" alt="Image">
-              </div>
-        {% endfor %}
+  <!-- Slides -->
+  <div class="carousel-inner">
+    {% for image in images %}
+    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+      <img src="{{ image }}" alt="Image" />
     </div>
-    <div class="carousel-caption d-none d-md-block">
-        <h3>{{ game.name }}</h5>
-        <p> {{ game.genre }} </p>
-      </div>
-    <!-- Controls -->
-    <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
+    {% endfor %}
+  </div>
+  <div class="carousel-caption d-none d-md-block">
+    <h5>{{ game.name }}</h5>
+    <p>{{ game.genre }}</p>
+  </div>
+  <!-- Controls -->
+  <a
+    class="carousel-control-prev"
+    href="#myCarousel"
+    role="button"
+    data-slide="prev"
+  >
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a
+    class="carousel-control-next"
+    href="#myCarousel"
+    role="button"
+    data-slide="next"
+  >
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
 </div>
-<hr class="hr-vertical-lines">
+<hr class="hr-vertical-lines" />
 
 <div class="card text-center">
-    <div class="card-header">
-      {{ game.platform }}
-    </div>
-    <div class="card-body">
-      <h5 class="card-title">About this game</h5>
-      <p class="card-text">{{ game.description }}</p>
-    </div>
-    <div class="card-footer text-muted">
-        <button id="sendTransactionButton">Send Transaction</button>
-        <button class="btn btn1 btn-outline-light" id="sendTransactionButton">Buy now {{ game.price }} ETH</button>
-        </div>
+  <div class="card-header">{{ game.platform }}</div>
+  <div class="card-body">
+    <h5 class="card-title">About this game</h5>
+    <p class="card-text">{{ game.description }}</p>
   </div>
+  <div class="card-footer text-muted">
+    <button id="sendTransactionButton">Send Transaction</button>
+    <button class="btn btn1 btn-outline-light" id="sendTransactionButton">
+      Buy now {{ game.price }} ETH
+    </button>
+  </div>
+</div>
 {% endblock %}
 <script>
-    // Function to handle the send transaction button click event
-    async function sendTransaction() {
-        const recipientAddress = "{{ game.wallet_address }}";
-        const transactionValue = "{{ game.price }}";
-        const gasLimit = '0xGasLimitDefault';
-        const gasPrice = '0xGasPriceDefault';
-        console.log(selectedAddress)
-        console.log(recipientAddress)
-        console.log(transactionValue)
-        console.log(gasLimit)
-        console.log(gasPrice)
+  // Function to handle the send transaction button click event
+  async function sendTransaction() {
+    const recipientAddress = "{{ game.wallet_address }}";
+    const transactionValue = "{{ game.price }}";
+    const gasLimit = "0xGasLimitDefault";
+    const gasPrice = "0xGasPriceDefault";
+    console.log(selectedAddress);
+    console.log(recipientAddress);
+    console.log(transactionValue);
+    console.log(gasLimit);
+    console.log(gasPrice);
 
-        const transaction = {
-          from: selectedAddress,
-          to: recipientAddress,
-          value: transactionValue,
-          gas: gasLimit,
-          gasPrice: gasPrice,
-        };
-      
-        try {
-          const transactionHash = await ethereum.request({
-            method: 'eth_sendTransaction',
-            params: [transaction],
-          });
-          console.log('Transaction sent:', transactionHash);
-        } catch (error) {
-          console.error('Error sending transaction:', error);
-        }
-      }
-      
-      // Attach the click event listener to the send transaction button
-      const sendTransactionButton = document.getElementById('sendTransactionButton');
-      sendTransactionButton.addEventListener('click', sendTransaction);
-            </script>    
+    const transaction = {
+      from: selectedAddress,
+      to: recipientAddress,
+      value: transactionValue,
+      gas: gasLimit,
+      gasPrice: gasPrice,
+    };
+
+    try {
+      const transactionHash = await ethereum.request({
+        method: "eth_sendTransaction",
+        params: [transaction],
+      });
+      console.log("Transaction sent:", transactionHash);
+    } catch (error) {
+      console.error("Error sending transaction:", error);
+    }
+  }
+
+  // Attach the click event listener to the send transaction button
+  const sendTransactionButton = document.getElementById(
+    "sendTransactionButton"
+  );
+  sendTransactionButton.addEventListener("click", sendTransaction);
+</script>
 <script>
-    $(document).ready(function(){
-        $('.carousel').carousel();
-    });
+  $(document).ready(function () {
+    $(".carousel").carousel();
+  });
 </script>
