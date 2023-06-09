@@ -191,18 +191,10 @@
           console.log('Metamask wallet is not connected');
           return;
         }
-        const recipientAddress = '{{ game.wallet_address }}';
-        const { ethers } = window;
-        const gamePrice = ethers.utils.parseEther('{{ game.price }}').toString();
-
-      console.log('From wallet: ', selectedAddress);
-      console.log('To wallet: ', recipientAddress);
-      console.log('Game price: ', gamePrice);
-
         const transaction = {
           from: selectedAddress,
-          to: recipientAddress,
-          value: gamePrice,
+          to: '{{ game.wallet_address }}',
+          value: '{{ game.get_price_in_wei16 }}',
         };
     
         try {
