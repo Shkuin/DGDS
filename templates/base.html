@@ -76,6 +76,7 @@
     <!-- <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/main.js' %}"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/@metamask/detect-provider@1.2.0/dist/detect-provider.min.js"></script>
+    <script src="https://cdn.ethers.io/lib/ethers-5.4.umd.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
     <title>{% block title %}Cyber{% endblock %}</title>
   </head>
@@ -191,16 +192,17 @@
           return;
         }
         const recipientAddress = '{{ game.wallet_address }}';
-      const transactionValue = '{{ game.get_price_in_wei }}';
+        const { ethers } = window;
+        const gamePrice = ethers.utils.parseEther('{{ game.price }}').toString();
 
       console.log('From wallet: ', selectedAddress);
       console.log('To wallet: ', recipientAddress);
-      console.log('Amount of transaction: ', transactionValue);
+      console.log('Game price: ', gamePrice);
 
         const transaction = {
           from: selectedAddress,
           to: recipientAddress,
-          value: '3000000000000',
+          value: gamePrice,
         };
     
         try {
