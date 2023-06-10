@@ -78,7 +78,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@metamask/detect-provider@1.2.0/dist/detect-provider.min.js"></script>
     <script src="https://cdn.ethers.io/lib/ethers-5.4.umd.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
-    <title>{% block title %}Cyber{% endblock %}</title>
+    <title>{% block title %}OASIS{% endblock %}</title>
   </head>
 
   <body>
@@ -115,7 +115,7 @@
               style="color: #ffffff"
               data-toggle="modal"
               data-target="#exampleModal"
-              >About us</a
+              >Game buying guide</a
             >
           </li>
           <li class="nav-item">
@@ -156,7 +156,15 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">here is a description of our project</div>
+          <div class="modal-body">
+            Now all transaction in Sepolia testnet only!<br>
+            1) In the catalog, select the game you are interested in<br>
+            2) Next, connect to your metamask crypto wallet using the button in the upper right corner<br>
+            3) To buy the game, click on the buy button, then sign the transaction in the pop-up Metamask window<br>
+            4) Wait for the transaction to be validated and added to the blockchain<br>
+            5) Enter the transaction address in the appropriate field on the game page and click Check<br>
+            6) If everything is done correctly, you will see a success message containing the id of your token with a copy of the game. Congratulations, you have purchased the game through our service!<br>
+          </div>
         </div>
       </div>
     </div>

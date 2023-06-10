@@ -122,7 +122,7 @@ def game_detail(request, slug):
         if form.is_valid():
             transaction_address = form.cleaned_data["transaction_address"]
             developer_wallet = game.wallet_address
-            game_price = game.price
+            game_price = game.get_price_in_wei()
 
             validity, message = check_validity_of_transaction(
                 transaction_address, developer_wallet, game_price
