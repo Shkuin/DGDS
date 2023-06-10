@@ -20,6 +20,7 @@ class DeveloperContract:
         )
         tx_hash = self.w3.eth.send_raw_transaction(signed_txn.rawTransaction)
 
+        self.w3.eth.wait_for_transaction_receipt(tx_hash, timeout=600)
         token_id = self.contract.functions.tokenId().call()
         return token_id
 
