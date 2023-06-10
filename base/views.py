@@ -61,19 +61,19 @@ def game_uploading(request):
                 key,
             ) = create_metadata.convert_game_file_to_metadata(game_file)
             # u should write real address here, owerwise there will be an error
-            wallet_address = "0x99bc949975C4bd87D2a6d2a5043112C121EC68D1"
+            # wallet_address = "0x99bc949975C4bd87D2a6d2a5043112C121EC68D1"
 
-            # sometimes u have to wait, because it takes time to load into blockchain, that's why sometimes token_id will be wrong
-            customer_contract = interaction_with_web3.return_contract("Customer")
-            game_id = 15
-            token_id = customer_contract.create_customer_nft(game_id, wallet_address)
+            # # sometimes u have to wait, because it takes time to load into blockchain, that's why sometimes token_id will be wrong
+            # customer_contract = interaction_with_web3.return_contract("Customer")
+            # game_id = 15
+            # token_id = customer_contract.create_customer_nft(game_id, wallet_address)
 
-            print(f"token id = {token_id}")
+            # print(f"token id = {token_id}")
 
-            # token_id = 0
-            info = customer_contract.get_gameId_from_tokenId(token_id - 1)
+            # # token_id = 0
+            # info = customer_contract.get_gameId_from_tokenId(token_id - 1)
 
-            print(f"info = {info}")
+            # print(f"info = {info}")
 
             # developer_contract = connect_to_contract.return_contract("Developer")
 
@@ -121,6 +121,12 @@ def game_catalog(request):
     return render(request, "catalog/game_catalog.html", context)
 
 
+def give_copy_game_nft_to_customer(game_id, wallet_address):
+    customer_contract = interaction_with_web3.return_contract("Customer")
+    token_id = customer_contract.create_customer_nft(game_id, wallet_address)
+    return token_id - 1
+
+
 def game_detail(request, slug):
     game = Game.objects.get(slug__iexact=slug)
     images = loads(game.images)
@@ -136,6 +142,14 @@ def game_detail(request, slug):
                 transaction_address, developer_wallet, game_price
             )
 
+            messages.info(request, message)
+
+        if validity:
+            game_id = game.token_id
+            customer_wallet = get_sender_wallet(transaction_address)
+            copy_game_id = give_copy_game_nft_to_customer(game_id, customer_wallet)
+
+            message = f"You got your game copy nft with id = {copy_game_id}!"
             messages.info(request, message)
 
         return HttpResponseRedirect(game.get_absolute_url())

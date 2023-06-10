@@ -14,6 +14,15 @@ def get_json(path):
     return info
 
 
+def get_sender_wallet(transaction_address):
+    w3 = connect_to_blockchain()
+    tx_receipt = w3.eth.getTransactionReceipt(transaction_address)
+    if tx_receipt:  # check that this is exist
+        return tx_receipt["from"]
+
+    return ""
+
+
 def get_recipient_wallet(transaction_address):
     w3 = connect_to_blockchain()
     tx_receipt = w3.eth.getTransactionReceipt(transaction_address)
