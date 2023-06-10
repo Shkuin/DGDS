@@ -22,7 +22,7 @@ class DeveloperContract:
 
         self.w3.eth.wait_for_transaction_receipt(tx_hash, timeout=600)
         token_id = self.contract.functions.tokenId().call()
-        return token_id
+        return int(token_id)
 
     def get_tokenId(self):
         return self.contract.functions.tokenId().call()

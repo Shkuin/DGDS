@@ -9,6 +9,8 @@ from base.helpful_scripts import interaction_with_web3
 from json import dumps, loads
 from django.core.files.storage import FileSystemStorage
 from web3 import Web3
+
+
 def add_new_game(
     name,
     genre,
@@ -104,8 +106,10 @@ def game_catalog(request):
 
 
 def give_copy_game_nft_to_customer(game_id, wallet_address):
+    print(f"wallet = {wallet_address}")
+    print(f"game_id = {type(game_id)}")
     customer_contract = interaction_with_web3.return_contract("Customer")
-    token_id = customer_contract.create_customer_nft(game_id, wallet_address)
+    token_id = customer_contract.create_customer_nft(int(game_id), wallet_address)
     return token_id - 1
 
 
