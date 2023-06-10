@@ -1,5 +1,5 @@
 # dgds
-
+You can see the functionality and an example of buying a game here: https://www.youtube.com/watch?v=wR7ZJU0LS3s
 to use and test our product at this stage of development, follow these steps:
 
 1. Install project from github: git clone https://github.com/Shkuin/dgds.git
