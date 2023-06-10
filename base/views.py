@@ -7,7 +7,7 @@ from base.scripts_for_ipfs import create_metadata
 from base.helpful_scripts.interaction_with_transactions import *
 from base.helpful_scripts import interaction_with_web3
 from json import dumps, loads
-
+from django.core.files.storage import FileSystemStorage
 
 def add_new_game(
     name,
@@ -55,6 +55,15 @@ def game_uploading(request):
             price = form.cleaned_data["price"]
             wallet_address = form.cleaned_data["wallet_address"]
 
+
+            poster_path = "base/media/" + poster.name
+            FileSystemStorage(location="base/media").save(poster.name, poster)
+
+            images_path = []
+            for i in images:
+                images_path.append("base/media/" + i.name)
+                FileSystemStorage(location="base/media").save(i.name, i)
+
             (
                 game_file_uri,
                 encrypted_message,
@@ -67,7 +76,6 @@ def game_uploading(request):
             token_id = developer_contract.create_developer_nft(
                 encrypted_message, wallet_address
             )
-
             poster_uri, images_uri = create_metadata.create_metadata_json(
                 poster, images
             )
@@ -76,8 +84,8 @@ def game_uploading(request):
                 genre,
                 description,
                 platform,
-                poster_uri,
-                images_uri,
+                poster_path,
+                dumps(images_path),
                 price,
                 token_id,
                 key,
