@@ -105,7 +105,7 @@
   .get_game {
         margin: auto;
         width: 50%;
-        padding: 10px;
+        padding: 3px;
   }
 </style>
 
@@ -180,11 +180,14 @@
           <span class="sign_word">Enter the transaction number to receive the game:</span>
       </div>
       {% render_field form.transaction_address placeholder="Transaction Address" class+="form-control" %}
-  </div>
-     <div class="d-flex justify-content-center mt-3 login_container">
+    </div>
+    <div class="get_game">
       {% for message in messages %}
       <p class="messages" id="messages">{{ message }}</p>
   {% endfor %}
+    </div>
+
+     <div class="d-flex justify-content-center mt-3 login_container">
   <div class="d-flex justify-content-center mt-3 login_container">  
     <button class="btn btn1 btn-outline-light" type="submit">Check</button>
   </div>
