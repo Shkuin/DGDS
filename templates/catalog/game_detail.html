@@ -97,6 +97,16 @@
     padding: 10px;
     width: 300px;
   }
+
+  .card-footer{
+        text-align: center;
+    }
+
+  .get_game {
+        margin: auto;
+        width: 50%;
+        padding: 10px;
+  }
 </style>
 
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -163,6 +173,25 @@
     </button>
   </div>
 </div>
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="get_game">
+      <div class="sign-wrap-2">
+          <span class="sign_word">Enter the transaction number to receive the game:</span>
+      </div>
+      {% render_field form.transaction_address placeholder="Transaction Address" class+="form-control" %}
+  </div>
+     <div class="d-flex justify-content-center mt-3 login_container">
+      {% for message in messages %}
+      <p class="messages" id="messages">{{ message }}</p>
+  {% endfor %}
+  <div class="d-flex justify-content-center mt-3 login_container">  
+    <button class="btn btn1 btn-outline-light" type="submit">Check</button>
+  </div>
+
+  </div>
+
+</form>
 {% endblock %}
 <script>
   $(document).ready(function () {

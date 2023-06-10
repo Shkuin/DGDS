@@ -8,7 +8,7 @@ from base.helpful_scripts.interaction_with_transactions import *
 from base.helpful_scripts import interaction_with_web3
 from json import dumps, loads
 from django.core.files.storage import FileSystemStorage
-
+from web3 import Web3
 def add_new_game(
     name,
     genre,
@@ -53,16 +53,15 @@ def game_uploading(request):
             images = request.FILES.getlist("images")
             game_file = form.cleaned_data["game_file"]
             price = form.cleaned_data["price"]
-            wallet_address = form.cleaned_data["wallet_address"]
+            wallet_address = Web3.toChecksumAddress(form.cleaned_data["wallet_address"])
 
-
-            poster_path = "base/media/" + poster.name
-            FileSystemStorage(location="base/media").save(poster.name, poster)
+            poster_path = "/static/img/" + poster.name
+            FileSystemStorage(location="static/img").save(poster.name, poster)
 
             images_path = []
             for i in images:
-                images_path.append("base/media/" + i.name)
-                FileSystemStorage(location="base/media").save(i.name, i)
+                images_path.append("/static/img/" + i.name)
+                FileSystemStorage(location="static/img").save(i.name, i)
 
             (
                 game_file_uri,

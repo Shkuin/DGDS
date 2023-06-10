@@ -12,7 +12,7 @@ class DeveloperContract:
                 "from": self.account.address,
                 "gas": 200000,
                 "gasPrice": self.w3.toWei("40", "gwei"),
-                "nonce": self.w3.eth.getTransactionCount(self.account.address) + 1,
+                "nonce": self.w3.eth.getTransactionCount(self.account.address),
             }
         )
         signed_txn = self.w3.eth.account.sign_transaction(
