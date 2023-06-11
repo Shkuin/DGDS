@@ -1,19 +1,14 @@
-from scripts_for_contract import connect_to_contract
+from scripts_for_chainlink import interaction_with_chainlink
+from scripts_for_chainlink import AgregatorV3Interface
 
 
 def main():
-    wallet_address = "0x99bc949975C4bd87D2a6d2a5043112C121EC68D1"
-    customer_contract = connect_to_contract.return_contract("Customer")
-
-    # sometimes u have to wait, because it takes time to load into blockchain, that's why sometimes token_id will be wrong
-    game_id = 1
-    token_id = customer_contract.createCustomerNFT(game_id, wallet_address)
-
-    print(f"token id = {token_id}")
-
-    info = customer_contract.get_gameId_from_tokenId(token_id)
-
-    print(f"info = {info}")
+    # transaction_address = (
+    #     "0x2f8f149e86a5a4cb1ac624df2baa027c7edd91949324f5d6d92b8f3ff22e6013"
+    # )
+    # interaction_with_chainlink.foo(transaction_address)
+    print(AgregatorV3Interface.get_foo())
 
 
 main()
+# Web3.toChecksumAd dress(lower_case_address).', '0x5f4ec3df9cbd43714fe2740f5e3616155c5b8419')
