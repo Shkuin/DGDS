@@ -175,9 +175,11 @@
       if(!sessionStorage.getItem("isFirstTime")){
         sessionStorage.setItem("isFirstTime", true)
         sessionStorage.setItem("isConnected", false)
+        sessionStorage.setItem("selectedAddress", null)
       }
-      let selectedAddress = null;
+
       console.log("is connected = ", sessionStorage.getItem("isConnected"))
+      console.log("selected address =", sessionStorage.getItem("selectedAddress"))
       // Function to handle the connect button click event
       async function connectMetamask() {
         try {
@@ -187,12 +189,8 @@
             if(sessionStorage.getItem("isConnected") == "false"){
               sessionStorage.isConnected = true;
               const accounts = await provider.request({ method: 'eth_requestAccounts' });
-              selectedAddress = accounts[0];
-              console.log('Connected with address:', selectedAddress);
+              sessionStorage.selectedAddress = accounts[0];
               console.log('Metamask connected');
-              if(document.getElementById('sendTransactionButton')){
-                document.getElementById('sendTransactionButton').disabled = false;
-              }
               switchNetwork("0xaa36a7")
             }
             else{
@@ -216,7 +214,7 @@
           return;
         }
         const transaction = {
-          from: selectedAddress,
+          from: sessionStorage.selectedAddress,
           to: '{{ game.wallet_address }}',
           value: '{{ game.get_price_in_wei16 }}',
         };
@@ -239,9 +237,6 @@
             sessionStorage.isConnected = false;
             console.log("Сonnection to metamask terminated")
             makeConnectButtonColored();
-            if(document.getElementById('sendTransactionButton')){
-                document.getElementById('sendTransactionButton').disabled = true;
-            }
           }
           else{
             console.log("already disconnected")
@@ -265,7 +260,6 @@
       async function switchNetwork(chainIdInHex){       
         if (window.ethereum.networkVersion != chainIdInHex) {
           try {
-            console.log("Hello i'm here");
             await window.ethereum.request({
               method: 'wallet_switchEthereumChain',
               params: [{ chainId: "0xaa36a7"}]
