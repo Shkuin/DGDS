@@ -127,6 +127,9 @@
         <button class="btn btn1 btn-outline-light" id="connectButton">
           Metamask
         </button>
+        <button class="btn btn1 btn-outline-light" id="disconnectButton">
+          Disconnect Metamask
+        </button>
       </div>
     </nav>
     <!-- Header END-->
@@ -169,23 +172,36 @@
       </div>
     </div>
     <script>
-      let connected = false;
+      if(!sessionStorage.getItem("isFirstTime")){
+        sessionStorage.setItem("isFirstTime", true)
+        sessionStorage.setItem("isConnected", false)
+      }
       let selectedAddress = null;
-    
+      console.log("is connected = ", sessionStorage.getItem("isConnected"))
       // Function to handle the connect button click event
       async function connectMetamask() {
         try {
           const provider = await detectEthereumProvider();
-
           if (provider) {
             await ethereum.request({ method: 'eth_requestAccounts' });
-            connected = true;
-            const accounts = await provider.request({ method: 'eth_requestAccounts' });
-         selectedAddress = accounts[0];
-         console.log('Connected with address:', selectedAddress);
-            console.log('Metamask connected');
-            document.getElementById('sendTransactionButton').disabled = false;
-          } else {
+            if(sessionStorage.getItem("isConnected") == "false"){
+              sessionStorage.isConnected = true;
+              const accounts = await provider.request({ method: 'eth_requestAccounts' });
+              selectedAddress = accounts[0];
+              console.log('Connected with address:', selectedAddress);
+              console.log('Metamask connected');
+              if(document.getElementById('sendTransactionButton')){
+                document.getElementById('sendTransactionButton').disabled = false;
+              }
+              switchNetwork("0xaa36a7")
+            }
+            else{
+              console.log("already connected")
+              return;
+            }
+            makeConnectButtonColored();
+          }
+          else{
             console.log('Metamask not detected');
           }
         } catch (error) {
@@ -195,7 +211,7 @@
     
       // Function to handle the send transaction button click event
       async function sendTransaction() {
-        if (!connected) {
+        if (sessionStorage.getItem("isConnected") == "false") {
           console.log('Metamask wallet is not connected');
           return;
         }
@@ -216,12 +232,67 @@
         }
       }
     
+
+      async function clearMetaMaskConnection() {
+        try {
+          if(sessionStorage.getItem("isConnected") == "true"){
+            sessionStorage.isConnected = false;
+            console.log("Сonnection to metamask terminated")
+            makeConnectButtonColored();
+            if(document.getElementById('sendTransactionButton')){
+                document.getElementById('sendTransactionButton').disabled = true;
+            }
+          }
+          else{
+            console.log("already disconnected")
+            return;
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      function makeConnectButtonColored(){
+        const connectButton = document.getElementById('connectButton');
+        if(sessionStorage.getItem("isConnected") == "true"){
+          connectButton.style.backgroundColor = "green"
+        }
+        else{
+          connectButton.style.backgroundColor = "red"
+        }
+      }
+
+      async function switchNetwork(chainIdInHex){       
+        if (window.ethereum.networkVersion != chainIdInHex) {
+          try {
+            console.log("Hello i'm here");
+            await window.ethereum.request({
+              method: 'wallet_switchEthereumChain',
+              params: [{ chainId: "0xaa36a7"}]
+            });
+          } catch (err) {
+            if (err.code == 4902){
+              console.log("You don't add the Sepolia network to metamask")
+            }
+            console.log("error = ", err)
+          }
+        }
+      }
+
       // Attach the click event listeners to the buttons
       const connectButton = document.getElementById('connectButton');
+      makeConnectButtonColored();
       connectButton.addEventListener('click', connectMetamask);
     
       const sendTransactionButton = document.getElementById('sendTransactionButton');
-      sendTransactionButton.addEventListener('click', sendTransaction);
+      if(sendTransactionButton){
+        sendTransactionButton.addEventListener('click', sendTransaction);
+      }
+      
+      const disconnectButton = document.getElementById('disconnectButton');
+      disconnectButton.addEventListener('click', clearMetaMaskConnection);
+
+
     </script>
     
 
