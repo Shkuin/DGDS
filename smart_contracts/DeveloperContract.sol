@@ -5,13 +5,13 @@ import "node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 contract DeveloperContract is ERC721 {
     address public immutable dgdsDeveloper;
-    uint256 public tokenId;
-    mapping(uint256 => string) tokenIDtoMetadata;
-    event metadataAssigned(uint256 indexed tokenId, string metadata);
+    uint256 public gameId;
+    mapping(uint256 => string) gameIdToMetadata;
+    event metadataAssigned(uint256 indexed gameId, string metadata);
 
     constructor(string memory name, string memory symbol) ERC721(name, symbol) {
         dgdsDeveloper = msg.sender;
-        tokenId = 0;
+        gameId = 0;
     }
 
     modifier onlyDgdsDeveloper() {
@@ -24,17 +24,17 @@ contract DeveloperContract is ERC721 {
 
     function createDeveloperNFT(
         string memory metadataURI,
-        address owner
+        address developer
     ) external onlyDgdsDeveloper returns (uint256) {
-        require(owner != address(0), "Invalid owner address.");
-        tokenIDtoMetadata[tokenId] = metadataURI;
-        emit metadataAssigned(tokenId, metadataURI);
-        _safeMint(owner, tokenId);
-        tokenId++;
-        return tokenId;
+        require(developer != address(0), "Invalid developer address.");
+        gameIdToMetadata[gameId] = metadataURI;
+        emit metadataAssigned(gameId, metadataURI);
+        _safeMint(developer, gameId);
+        gameId++;
+        return gameId;
     }
 
     function getMetadataFromID(uint256 id) public view returns (string memory) {
-        return tokenIDtoMetadata[id];
+        return gameIdToMetadata[id];
     }
 }

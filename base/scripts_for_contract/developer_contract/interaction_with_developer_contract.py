@@ -21,11 +21,11 @@ class DeveloperContract:
         tx_hash = self.w3.eth.send_raw_transaction(signed_txn.rawTransaction)
 
         self.w3.eth.wait_for_transaction_receipt(tx_hash, timeout=600)
-        token_id = self.contract.functions.tokenId().call()
-        return int(token_id)
+        game_id = self.contract.functions.gameId().call()
+        return int(game_id)
 
-    def get_tokenId(self):
-        return self.contract.functions.tokenId().call()
+    def get_token_id(self):
+        return self.contract.functions.gameId().call()
 
-    def get_metadata_from_tokenId(self, tokenId):
+    def get_metadata_from_token_id(self, tokenId):
         return self.contract.functions.getMetadataFromID(tokenId).call()

@@ -21,11 +21,14 @@ class CustomerContract:
         tx_hash = self.w3.eth.send_raw_transaction(signed_txn.rawTransaction)
 
         self.w3.eth.wait_for_transaction_receipt(tx_hash, timeout=600)
-        token_id = self.contract.functions.customerId().call()
-        return token_id
+        game_copy_id = self.contract.functions.gameCopyId().call()
+        return game_copy_id
 
-    def get_tokenId(self):
-        return self.contract.functions.customerId().call()
+    def get_game_copy_id(self):
+        return self.contract.functions.gameCopyId().call()
 
-    def get_gameId_from_tokenId(self, tokenId):
-        return self.contract.functions.getGameIdFromCustomerId(tokenId).call()
+    def get_game_id_from_game_copy_id(self, tokenId):
+        return self.contract.functions.getGameIdFromGameCopyId(tokenId).call()
+
+    def get_game_copies_id_from_address(self, address):
+        return self.contract.functions.getGameCopiesIdFromAddress(address).call()

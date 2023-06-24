@@ -191,6 +191,7 @@
               const accounts = await provider.request({ method: 'eth_requestAccounts' });
               sessionStorage.selectedAddress = accounts[0];
               console.log('Metamask connected');
+              // sepolia network code 
               switchNetwork("0xaa36a7")
             }
             else{
