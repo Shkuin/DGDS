@@ -82,9 +82,13 @@ WSGI_APPLICATION = 'dgds.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-                }
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'oasis',
+        'USER': 'iskrametno',
+        'PASSWORD': 'OASISLife2077!', 
+        'HOST': 'database-1.ckff45s13q9q.us-east-1.rds.amazonaws.com',
+        'PORT': '5432',
+    }
 }
 
 
@@ -116,7 +120,7 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_TZ = True
+#USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
