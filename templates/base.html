@@ -171,44 +171,11 @@
         </div>
       </div>
     </div>
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" /> -->
+    <!-- <script src="../javaScript/code.js"></script> -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/contract_abi.js' %}"></script>
     <script>
-      if(!sessionStorage.getItem("isFirstTime")){
-        sessionStorage.setItem("isFirstTime", true)
-        sessionStorage.setItem("isConnected", false)
-        sessionStorage.setItem("selectedAddress", null)
-      }
-
-      console.log("is connected = ", sessionStorage.getItem("isConnected"))
-      console.log("selected address =", sessionStorage.getItem("selectedAddress"))
-      // Function to handle the connect button click event
-      async function connectMetamask() {
-        try {
-          const provider = await detectEthereumProvider();
-          if (provider) {
-            await ethereum.request({ method: 'eth_requestAccounts' });
-            if(sessionStorage.getItem("isConnected") == "false"){
-              sessionStorage.isConnected = true;
-              const accounts = await provider.request({ method: 'eth_requestAccounts' });
-              sessionStorage.selectedAddress = accounts[0];
-              console.log('Metamask connected');
-              // sepolia network code 
-              switchNetwork("0xaa36a7")
-            }
-            else{
-              console.log("already connected")
-              return;
-            }
-            makeConnectButtonColored();
-          }
-          else{
-            console.log('Metamask not detected');
-          }
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    
-      // Function to handle the send transaction button click event
       async function sendTransaction() {
         if (sessionStorage.getItem("isConnected") == "false") {
           console.log('Metamask wallet is not connected');
@@ -219,7 +186,7 @@
           to: '{{ game.wallet_address }}',
           value: '{{ game.get_price_in_wei16 }}',
         };
-    
+
         try {
           const transactionHash = await ethereum.request({
             method: 'eth_sendTransaction',
@@ -230,66 +197,39 @@
           console.error('Error sending transaction:', error);
         }
       }
-    
 
-      async function clearMetaMaskConnection() {
-        try {
-          if(sessionStorage.getItem("isConnected") == "true"){
-            sessionStorage.isConnected = false;
-            console.log("Сonnection to metamask terminated")
-            makeConnectButtonColored();
+      const yourMethod = () => {
+        if(window.ethereum.request({method: 'eth_requestAccounts'})){
+          console.log("aue")
+          const provider = new ethers.providers.Web3Provider(window.ethereum);
+          const signer = provider.getSigner();
+          const address = signer.getAddress();
+          // const address = "0x99bc949975C4bd87D2a6d2a5043112C121EC68D1";
+          console.log("signer address = ", address);
+          const tx = {
+          from: address,
+          to: contractAddress,
+          value: '{{ game.get_price_in_wei16 }}', // this is the value in wei to send
+          data: contract.methods.createDeveloperNFT("auedadaya", "0x99bc949975C4bd87D2a6d2a5043112C121EC68D1").encodeABI()
           }
-          else{
-            console.log("already disconnected")
-            return;
-          }
-        } catch (error) {
-          console.error(error);
+
+          const txHash = window.ethereum.request({
+          method: 'eth_sendTransaction',
+          params: [tx]
+          });
+
+          // do something with your transaction hash here
+          console.log({txHash});
+        }else{
+          console.log('user must connect wallet');
         }
       }
-
-      function makeConnectButtonColored(){
-        const connectButton = document.getElementById('connectButton');
-        if(sessionStorage.getItem("isConnected") == "true"){
-          connectButton.style.backgroundColor = "green"
-        }
-        else{
-          connectButton.style.backgroundColor = "red"
-        }
-      }
-
-      async function switchNetwork(chainIdInHex){       
-        if (window.ethereum.networkVersion != chainIdInHex) {
-          try {
-            await window.ethereum.request({
-              method: 'wallet_switchEthereumChain',
-              params: [{ chainId: "0xaa36a7"}]
-            });
-          } catch (err) {
-            if (err.code == 4902){
-              console.log("You don't add the Sepolia network to metamask")
-            }
-            console.log("error = ", err)
-          }
-        }
-      }
-
-      // Attach the click event listeners to the buttons
-      const connectButton = document.getElementById('connectButton');
-      makeConnectButtonColored();
-      connectButton.addEventListener('click', connectMetamask);
-    
       const sendTransactionButton = document.getElementById('sendTransactionButton');
       if(sendTransactionButton){
-        sendTransactionButton.addEventListener('click', sendTransaction);
+        sendTransactionButton.addEventListener('click', yourMethod);
       }
-      
-      const disconnectButton = document.getElementById('disconnectButton');
-      disconnectButton.addEventListener('click', clearMetaMaskConnection);
-
-
     </script>
-    
+    <script type="text/javascript" src="{% static 'js/interaction_with_metamask.js' %}"></script>
 
     <script
       src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
