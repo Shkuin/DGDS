@@ -97,7 +97,7 @@ def game_uploading(request):
     else:
         form = GameUploadForm()
 
-    return render(request, "game_uploading.html", {"form": form})
+    return render(request, "uploading/game_uploading.html", {"form": form})
 
 
 def game_catalog(request):
