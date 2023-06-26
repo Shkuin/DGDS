@@ -85,7 +85,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'oasis',
         'USER': 'iskrametno',
-        'PASSWORD': 'OASISLife2077!', 
+        'PASSWORD': 'OASISLife2077!',
         'HOST': 'database-1.ckff45s13q9q.us-east-1.rds.amazonaws.com',
         'PORT': '5432',
     }
