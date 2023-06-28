@@ -31,7 +31,7 @@ class Game(models.Model):
         return str(hex(int(self.price * 1000000000000000000 / get_latest_price())))
 
     def get_price_in_wei(self):
-        return int(self.price * 1000000000000000000)
+        return int(self.price * 1000000000000000000 / get_latest_price())
 
     def __str__(self):
         return self.name

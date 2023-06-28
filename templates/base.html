@@ -175,7 +175,16 @@
     <!-- <script src="../javaScript/code.js"></script> -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
     <script type="text/javascript" src="{% static 'js/contract_abi.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/interaction_with_metamask.js' %}"></script>
     <script>
+      const contractAddress = "0x3646ff101beAC4D38F50d37A5C5caaC234cC9A68";
+      const web3 = new Web3(
+        new Web3.providers.HttpProvider(
+          `https://sepolia.infura.io/v3/5c84d02cce30471ea955d1e9f6b3117c`,
+        ),
+      );
+      contract = new web3.eth.Contract(contract_abi, "0x3646ff101beAC4D38F50d37A5C5caaC234cC9A68");
+      // console.log(contract.methods.createDeveloperNFT("auedadaya", "0x99bc949975C4bd87D2a6d2a5043112C121EC68D1").encodeABI());
       async function sendTransaction() {
         if (sessionStorage.getItem("isConnected") == "false") {
           console.log('Metamask wallet is not connected');
@@ -198,38 +207,119 @@
         }
       }
 
-      const yourMethod = () => {
+      async function yourMethod () {
         if(window.ethereum.request({method: 'eth_requestAccounts'})){
           console.log("aue")
-          const provider = new ethers.providers.Web3Provider(window.ethereum);
-          const signer = provider.getSigner();
-          const address = signer.getAddress();
+          const transaction = {
+            from: sessionStorage.selectedAddress,
+            to: '{{ game.wallet_address }}',
+            value: '{{ game.get_price_in_wei16 }}',
+            data: contract.methods.gameId().encodeABI(),
+          };
           // const address = "0x99bc949975C4bd87D2a6d2a5043112C121EC68D1";
-          console.log("signer address = ", address);
-          const tx = {
-          from: address,
-          to: contractAddress,
-          value: '{{ game.get_price_in_wei16 }}', // this is the value in wei to send
-          data: contract.methods.createDeveloperNFT("auedadaya", "0x99bc949975C4bd87D2a6d2a5043112C121EC68D1").encodeABI()
+          // console.log("signer address = ", address);
+
+          try { 
+            const transactionHash = await ethereum.request({
+              method: 'eth_sendTransaction',
+              params: [transaction],
+            });
+            console.log('Transaction sent:', transactionHash);
+          } catch (error) {
+            console.error('Error sending transaction:', error);
           }
-
-          const txHash = window.ethereum.request({
-          method: 'eth_sendTransaction',
-          params: [tx]
-          });
-
-          // do something with your transaction hash here
-          console.log({txHash});
+            console.log("aue1");
+            // do something with your transaction hash here
+            // console.log({txHash});
+            console.log("aue2");
         }else{
           console.log('user must connect wallet');
         }
       }
+      async function foo1(){
+        async function loadWeb3() {
+          if (window.ethereum) {
+            window.web3 = new Web3(window.ethereum);
+            window.ethereum.enable();
+          }
+        }
+        async function loadContract() {
+          let abi = contract_abi;// your abi here
+          let address = "0xdef5841caAdEAEe5dF7FEb929bEE3BE27069A297";  // your contract address here
+          return await new window.web3.eth.Contract(abi, address);
+        }
+        async function getCurrentAccount() {
+          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+          console.log("account info = ", accounts[0]);
+          return accounts[0];
+        }
+
+        async function run() {
+          await loadWeb3();
+          window.contract = await loadContract();
+          const customer_account = await getCurrentAccount();
+          PRIVATE_KEY = "750bb8368c19376f2ddb57f78a4a810bc73789f7845a9f52a7651a444fd8fb84";
+          // const dgds_developer_account = web3.eth.accounts.privateKeyToAccount("0x" + YOUR_PRIVATE_KEY);
+          const dgds_developer_account = web3.eth.accounts.privateKeyToAccount(PRIVATE_KEY);
+          console.log('dgds address:', dgds_developer_account.address);
+          // console.log("mm address = ", customer_account);
+          // await web3.eth.personal.unlockAccount(account.address, YOUR_PASSWORD);
+          price = 0;
+          gameId = 105;
+          devAddress = "0x99bc949975C4bd87D2a6d2a5043112C121EC68D1";
+          custAddress = "0xF22cFb17fA3247eCF089024302b7b090AcD5c3CE";
+          console.log("price = ", '{{ game.get_price_in_wei }}');
+          let res = await window.contract.methods.payAndCreateCustomerNFT(devAddress, custAddress, price, gameId)
+               .send({ from: dgds_developer_account.address,
+                      value: '{{ game.get_price_in_wei16 }}',});
+          console.log("res = ", res);
+          // let result = await window.contract.methods.createDeveloperNFT("abobaaue2", "0x99bc949975C4bd87D2a6d2a5043112C121EC68D1")
+          //   .send({ from: account,
+          //           to: '{{ game.wallet_address }}',
+          //           value: '{{ game.get_price_in_wei16 }}',});
+        }
+        // from: sessionStorage.selectedAddress,
+        // to: '{{ game.wallet_address }}',
+        // value: '{{ game.get_price_in_wei16 }}',
+        // data: contract.methods.gameId().encodeABI(),
+        if (typeof window.ethereum !== 'undefined') {
+          console.log("fwfwe");
+          run();
+        }
+      }
+      // foo1();
+      // const yourMethod = () => {
+      //   if(window.ethereum.request({method: 'eth_requestAccounts'})){
+      //     console.log("aue")
+      //     const provider = new ethers.providers.Web3Provider(window.ethereum);
+      //     const signer = provider.getSigner();
+      //     const address = signer.getAddress();
+      //     // const address = "0x99bc949975C4bd87D2a6d2a5043112C121EC68D1";
+      //     console.log("signer address = ", address);
+      //     const tx = {
+      //     from: address,
+      //     to: contractAddress,
+      //     value: '{{ game.get_price_in_wei16 }}', // this is the value in wei to send
+      //     data: contract.methods.createDeveloperNFT("auedadaya", "0x99bc949975C4bd87D2a6d2a5043112C121EC68D1").encodeABI()
+      //     }
+
+      //     const txHash = window.ethereum.request({
+      //     method: 'eth_sendTransaction',
+      //     params: [tx]
+      //     });
+      //     console.log("aue1");
+      //     // do something with your transaction hash here
+      //     console.log({txHash});
+      //     console.log("aue2");
+      //   }else{
+      //     console.log('user must connect wallet');
+      //   }
+      // }
       const sendTransactionButton = document.getElementById('sendTransactionButton');
       if(sendTransactionButton){
-        sendTransactionButton.addEventListener('click', yourMethod);
+        sendTransactionButton.addEventListener('click', foo1);
       }
     </script>
-    <script type="text/javascript" src="{% static 'js/interaction_with_metamask.js' %}"></script>
 
     <script
       src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

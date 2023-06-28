@@ -1,10 +1,10 @@
-const contractAddress = "0x3646ff101beAC4D38F50d37A5C5caaC234cC9A68";
-const web3 = new Web3(
-  new Web3.providers.HttpProvider(
-    `https://sepolia.infura.io/v3/5c84d02cce30471ea955d1e9f6b3117c`,
-  ),
-);
-const contract = new web3.eth.Contract(contract_abi, contractAddress);
+// const contractAddress = "0x3646ff101beAC4D38F50d37A5C5caaC234cC9A68";
+// const web3 = new Web3(
+//   new Web3.providers.HttpProvider(
+//     `https://sepolia.infura.io/v3/5c84d02cce30471ea955d1e9f6b3117c`,
+//   ),
+// );
+// const contract = new web3.eth.Contract(contract_abi.contract_abi, contractAddress);
 
 
 if(!sessionStorage.getItem("isFirstTime")){
