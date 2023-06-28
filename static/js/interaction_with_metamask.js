@@ -86,12 +86,22 @@ async function clearMetaMaskConnection() {
 
 function makeConnectButtonColored(){
   const connectButton = document.getElementById('connectButton');
+  var metamask_ico = document.createElement("img");
+  var child = connectButton.lastElementChild; 
+  while (child) {
+    connectButton.removeChild(child);
+    child = connectButton.lastElementChild;
+  }
   if(sessionStorage.getItem("isConnected") == "true"){
-    connectButton.style.backgroundColor = "green"
+    metamask_ico.setAttribute("src", "/static/ico/metamask_on.png");
   }
   else{
-    connectButton.style.backgroundColor = "red"
+    metamask_ico.setAttribute("src", "/static/ico/metamask_off.png");
   }
+  metamask_ico.setAttribute("height", "64");
+  metamask_ico.setAttribute("width", "64");
+  metamask_ico.setAttribute("alt", "metamask_wallet");
+  connectButton.appendChild(metamask_ico);
 }
 
 async function switchNetwork(chainIdInHex){       
