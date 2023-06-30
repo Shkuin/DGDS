@@ -35,3 +35,10 @@ class Game(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_game_id(self):
+        # print(f"token id = {self.token_id}")
+        return self.token_id
+
+    def get_game_developer(self):
+        return self.wallet_address

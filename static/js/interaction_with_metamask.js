@@ -1,20 +1,11 @@
-// const contractAddress = "0x3646ff101beAC4D38F50d37A5C5caaC234cC9A68";
-// const web3 = new Web3(
-//   new Web3.providers.HttpProvider(
-//     `https://sepolia.infura.io/v3/5c84d02cce30471ea955d1e9f6b3117c`,
-//   ),
-// );
-// const contract = new web3.eth.Contract(contract_abi.contract_abi, contractAddress);
-
-
 if(!sessionStorage.getItem("isFirstTime")){
   sessionStorage.setItem("isFirstTime", true)
   sessionStorage.setItem("isConnected", false)
   sessionStorage.setItem("selectedAddress", null)
 }
 
-console.log("is connected = ", sessionStorage.getItem("isConnected"))
-console.log("selected address =", sessionStorage.getItem("selectedAddress"))
+// console.log("is connected = ", sessionStorage.getItem("isConnected"))
+// console.log("selected address =", sessionStorage.getItem("selectedAddress"))
 // Function to handle the connect button click event
 async function connectMetamask() {
   try {
@@ -42,31 +33,45 @@ async function connectMetamask() {
     console.error(error);
   }
 }
-// console.log(game.wallet_address);
-// Function to handle the send transaction button click event
-// async function sendTransaction() {
-//   // console.log({{game.wallet_address}});
-//   if (sessionStorage.getItem("isConnected") == "false") {
-//     console.log('Metamask wallet is not connected');
-//     return;
-//   }
-//   const transaction = {
-//     from: sessionStorage.selectedAddress,
-//     to: '{{ game.wallet_address }}',
-//     value: '{{ game.get_price_in_wei16 }}',
-//   };
 
-//   try {
-//     const transactionHash = await ethereum.request({
-//       method: 'eth_sendTransaction',
-//       params: [transaction],
-//     });
-//     console.log('Transaction sent:', transactionHash);
-//   } catch (error) {
-//     console.error('Error sending transaction:', error);
-//   }
-// }
+async function sendTransaction(event){
+  async function loadWeb3() {
+    if (window.ethereum) {
+      window.web3 = new Web3(window.ethereum);
+      window.ethereum.enable();
+    }
+  }
+  async function loadBuyGameContract() {
+    let abi = contract_abi;
+    let address = "0xdef5841caAdEAEe5dF7FEb929bEE3BE27069A297";
+    return await new window.web3.eth.Contract(abi, address);
+  }
+  async function getCustomerAccount() {
+    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+    console.log("account info = ", accounts[0]);
+    return accounts[0];
+  }
 
+  async function send(devAddress, gameId, gamePrice) {
+    await loadWeb3();
+    window.contract = await loadBuyGameContract();
+    const customer_account = await getCustomerAccount();
+    PRIVATE_KEY = "750bb8368c19376f2ddb57f78a4a810bc73789f7845a9f52a7651a444fd8fb84";
+    const dgds_developer_account = web3.eth.accounts.privateKeyToAccount(PRIVATE_KEY);
+    let res = await window.contract.methods.payAndCreateCustomerNFT(devAddress, customer_account, 0, gameId)
+         .send({ from: dgds_developer_account.address,
+                value: gamePrice,});
+    console.log("res = ", res);
+  }
+
+  if (typeof window.ethereum !== 'undefined' && sessionStorage.getItem("isConnected") == "false") {
+    console.log("fwfwe");
+    send(event.currentTarget.devAddress , event.currentTarget.gameId, event.currentTarget.gamePrice);
+  }
+  else{
+    console.log("Something wrong with window.ethereum")
+  }
+}
 
 async function clearMetaMaskConnection() {
   try {
@@ -109,17 +114,3 @@ async function switchNetwork(chainIdInHex){
     }
   }
 }
-
-// Attach the click event listeners to the buttons
-const connectButton = document.getElementById('connectButton');
-makeConnectButtonColored();
-connectButton.addEventListener('click', connectMetamask);
-
-// const sendTransactionButton = document.getElementById('sendTransactionButton');
-// if(sendTransactionButton){
-//   sendTransactionButton.addEventListener('click', sendTransaction);
-// }
-
-const disconnectButton = document.getElementById('disconnectButton');
-disconnectButton.addEventListener('click', clearMetaMaskConnection);
-// disconnectButton.addEventListener('click', yourMethod);
